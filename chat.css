@@ -1,0 +1,262 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+body {
+  background-color: #242424;
+}
+span {
+  word-break: break-all;
+  font-size: medium;
+}
+input {
+  outline: none;
+  border: 1px solid black;
+  padding-right: 10px;
+  padding-left: 5px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.main-block {
+  width: 1000px;
+  height: 560px;
+  padding: 8px;
+  position: relative;
+  margin-left: 235px;
+  margin-top: 35px;
+}
+
+.configuration-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.configuration-wrapper button {
+  height: 35px;
+  width: 85px;
+  padding: 3px 5px;
+  background-color: rgb(94, 85, 214);
+  border: none;
+  color: #ffff;
+  border-radius: 5px;
+}
+.delivered-message_color {
+  background-color: #e5e5e5;
+}
+.sent-message_color {
+  background-color: #eeeef3;
+}
+
+.message-window {
+  height: 437px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 0 8px;
+  padding-top: 8px;
+  overflow: auto;
+  margin-bottom: 8px;
+  overflow-x: hidden;
+  background-color: #ffff;
+}
+
+.my_message-block {
+  display: flex;
+  justify-content: end;
+  margin-right: -1px;
+  text-align: right;
+  margin-bottom: 8px;
+}
+.my_message-wrapper {
+  padding: 8px;
+}
+
+._message-blocotherk {
+  display: flex;
+  justify-content: start;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.other_message-wrapper {
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+}
+
+.time-message,
+.time-my-message {
+  text-align: right;
+  color: #242424;
+  font-style: italic;
+  font-size: x-small;
+}
+
+.companion-name {
+  font-size: small;
+}
+
+.my_message-input {
+  width: 950px;
+  height: 35px;
+  margin-right: 4px;
+  outline: none;
+  border-radius: 5px;
+}
+
+.send_message {
+  height: 35px;
+  width: 25px;
+  background-color: rgb(94, 85, 214);
+  border: none;
+  color: #ffff;
+  border-radius: 5px;
+}
+
+.settings_wrapper,
+.confirmation_wrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background-color: #242424;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.authorization_wrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background-color: #242424;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.block-settings,
+.block-confirmation {
+  width: 273px;
+  height: 319px;
+  padding: 0 14px;
+  padding-top: 16px;
+}
+
+.confirmation {
+  font-size: 36px;
+  margin-bottom: 60px;
+  color: rgb(94, 85, 214);
+}
+
+.block-authorization {
+  width: 273px;
+  height: 319px;
+  padding: 0 14px;
+  padding-top: 16px;
+}
+
+.wrapper_settings,
+.wrapper_authorization,
+.wrapper_confirmation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.wrapper_authorization {
+  font-size: 45px;
+  margin-bottom: 60px;
+  color: rgb(94, 85, 214);
+}
+
+.name_input {
+  width: 280px;
+  height: 35px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+}
+
+.btn_name_in_chat,
+.btn-get-code {
+  margin-top: 8px;
+  height: 32px;
+  width: 280px;
+  background-color: rgb(94, 85, 214);
+  border: none;
+  color: #ffff;
+  border-radius: 5px;
+  margin-left: 0px;
+}
+
+.name-select_wrapper {
+  max-width: 200px;
+}
+
+.settings {
+  font-size: 36px;
+  margin-bottom: 60px;
+  color: rgb(94, 85, 214);
+}
+
+.display_flex {
+  display: flex;
+}
+
+.me {
+  width: 100px;
+}
+
+.message-window::-webkit-scrollbar {
+  width: 10px;
+}
+.message-window::-webkit-scrollbar-track {
+  background: #f6f6f6;
+}
+.message-window::-webkit-scrollbar-thumb {
+  background-color: #e5e5e5;
+  border-radius: 30px;
+  border: 3px solid #f6f6f6;
+}
+
+.close-window {
+  width: 40px;
+  height: 35px;
+  margin-top: 2px;
+  margin-left: 77px;
+  font-size: 25px;
+  background-color: #242424;
+  border: 0;
+  color: rgb(94, 85, 214);
+}
+
+.name_in_chat {
+  font-size: 15px;
+  color: rgb(94, 85, 214);
+}
+
+.message-authorization {
+  margin-top: 5px;
+  font-size: 15px;
+  color: rgb(94, 85, 214);
+}
+
+.result-message {
+  margin-top: 5px;
+  font-size: 15px;
+  color: rgb(94, 85, 214);
+}
