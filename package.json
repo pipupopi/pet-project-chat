@@ -1,11 +1,28 @@
 {
+  "name": "pet-project-chat",
+  "version": "1.0.0",
+  "description": "Приложение с возможностью авторизации по почте, сменой имени в чате и реализованный функционал отправки сообщений в режиме реального времени. Приложение было написано на JavaScript и основной упор был на работу с API (разные типы запросов) и WebSoket.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pipupopi/pet-project-chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pipupopi/pet-project-chat/issues"
+  },
+  "homepage": "https://github.com/pipupopi/pet-project-chat#readme",
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2",
+    "@types/js-cookie": "^3.0.3",
     "parcel": "^2.9.2"
   },
   "dependencies": {
     "cookie": "^0.5.0",
-    "date-fns": "^2.29.3",
-    "js-cookie": "^3.0.1"
+    "date-fns": "^2.30.0",
+    "js-cookie": "^3.0.5"
   }
 }
