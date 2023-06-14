@@ -8,57 +8,89 @@ import {
   HISTORY_RENDER_VALUES,
   COLOR_MESSAGE,
   URL_STRADA,
+  DEFAULT_VALUE,
+  ANSWER_REQUEST,
+  CONNECT_TIMEOUT,
+  KEY_CODE,
 } from "./const";
 
-import { mailRequest, changeNameRequest, messagesRequest } from "./request";
+import {
+  mailRequest,
+  changeNameRequest,
+  messagesRequest,
+} from "./request";
 
 import { format } from "date-fns";
 import { cookieSet } from "./cookie";
 import Cookies from "js-cookie";
 
-AUTHORIZATION.AUTHORIZATION_FORM.addEventListener("submit", (event) => {
-  event.preventDefault();
-  mailRequest(AUTHORIZATION.INPUT_MAIL.value, URL_STRADA.EMAIL);
-});
-CONFIRMATION.FORM_CONFIRMATION.addEventListener("submit", saveUserCode);
+AUTHORIZATION.AUTHORIZATION_FORM.addEventListener(
+  "submit",
+  (event) => {
+    event.preventDefault();
+    mailRequest(AUTHORIZATION.INPUT_MAIL.value, URL_STRADA.EMAIL);
+  }
+);
+CONFIRMATION.FORM_CONFIRMATION.addEventListener(
+  "submit",
+  saveUserCode
+);
 SETTINGS.CHANGE_NAME_FORM.addEventListener("submit", changeName);
 MESSAGES.MESSAGE_FORM.addEventListener("submit", sendMessage);
 
-const socket = new WebSocket(
-  `wss://edu.strada.one/websockets?${ELEMENTS.CODE}`
-);
-socket.onmessage = function (event) {
-  try {
-    RenderMessages(JSON.parse(event.data), "append");
-  } catch (error) {
-    console.log(error);
-  }
-  MESSAGES.MESSAGE_BLOCK.scrollIntoView(false);
-};
+let socket;
 
-ELEMENTS.SMILE.addEventListener("click", function () {
-  MESSAGES.MESSAGE_INPUT.value = "😔";
+addEventListener("DOMContentLoaded", () => {
+  function connect() {
+    socket = new WebSocket(
+      `wss://edu.strada.one/websockets?${ELEMENTS.CODE}`
+    );
+    socket.onopen = () => {
+      console.log("connect");
+    };
+
+    socket.onmessage = (event) => {
+      try {
+        RenderMessages(JSON.parse(event.data), "append");
+        MESSAGES.MESSAGE_BLOCK.scrollIntoView(false);
+      } catch (error) {
+        throw new Error(error);
+      }
+
+      socket.onclose = () => {
+        console.log("connect close");
+
+        setTimeout(connect, CONNECT_TIMEOUT);
+      };
+    };
+  }
+  connect();
 });
 
 function saveUserCode(event: Event) {
   event.preventDefault();
-  cookieSet("code", CONFIRMATION.CODE_INPUT.value);
+  cookieSet(KEY_CODE, CONFIRMATION.CODE_INPUT.value);
   messagesRequest(URL_STRADA.MESSAGES);
 }
 
 function sendMessage(event: Event) {
   event.preventDefault();
   try {
-    socket.send(JSON.stringify({ text: MESSAGES.MESSAGE_INPUT.value }));
-    MESSAGES.MESSAGE_INPUT.value = "";
+    socket.send(
+      JSON.stringify({ text: MESSAGES.MESSAGE_INPUT.value })
+    );
+    MESSAGES.MESSAGE_INPUT.value = DEFAULT_VALUE;
   } catch (error) {
-    console.log(error);
+    throw new Error(ANSWER_REQUEST.ERROR_SEND_MESSAGE);
   }
 }
 
 function changeName(event: Event) {
   event.preventDefault();
-  changeNameRequest(SETTINGS.CHANGE_NAME_INPUT.value, URL_STRADA.EMAIL);
+  changeNameRequest(
+    SETTINGS.CHANGE_NAME_INPUT.value,
+    URL_STRADA.EMAIL
+  );
 }
 
 export function changeNameMessage(message: string, name: string) {
@@ -67,13 +99,16 @@ export function changeNameMessage(message: string, name: string) {
 
 export function deleteAccountHistory() {
   AUTHORIZATION.AUTHORIZATION_WRAPPER.style.display = "flex";
-  Cookies.remove("code");
+  Cookies.remove(KEY_CODE);
 }
 
 export function loadHistoryMessage(array: TYPE_MESSAGES) {
   if (array) {
     for (
-      let i = HISTORY_RENDER_VALUES.START; i < HISTORY_RENDER_VALUES.END; i++) {
+      let i = HISTORY_RENDER_VALUES.START;
+      i < HISTORY_RENDER_VALUES.END;
+      i++
+    ) {
       RenderMessages(array.messages[i], "prepend");
       MESSAGES.MESSAGE_BLOCK.scrollIntoView(false);
     }
@@ -93,17 +128,23 @@ function scrollRender(array: TYPE_MESSAGES) {
       i++
     ) {
       RenderMessages(array.messages[i], "prepend");
-      ELEMENTS.SCROLL_BLOCK.scrollTop = SCROLL_RENDER_VALUES.SCROLL_BACK;
+      ELEMENTS.SCROLL_BLOCK.scrollTop =
+        SCROLL_RENDER_VALUES.SCROLL_BACK;
     }
     SCROLL_RENDER_VALUES.START = SCROLL_RENDER_VALUES.END;
     SCROLL_RENDER_VALUES.END += SCROLL_RENDER_VALUES.INCREASE_NUMBER;
-    if (SCROLL_RENDER_VALUES.START === SCROLL_RENDER_VALUES.ALL_MESSAGES) {
+    if (
+      SCROLL_RENDER_VALUES.START === SCROLL_RENDER_VALUES.ALL_MESSAGES
+    ) {
       alert("Все выгрузилось!");
     }
   }
 }
 
-export function RenderMessages(data: DATA_SERVER_TYPE, method: string) {
+export function RenderMessages(
+  data: DATA_SERVER_TYPE,
+  method: string
+) {
   const authorMessage =
     MESSAGES.TEMPLATE.content.querySelector<HTMLParagraphElement>(
       ".other-name-message"
@@ -120,9 +161,13 @@ export function RenderMessages(data: DATA_SERVER_TYPE, method: string) {
   if (message) {
     message.textContent = data.text;
   }
-  const timeMessage = MESSAGES.TEMPLATE.content.querySelector(".time-message");
+  const timeMessage =
+    MESSAGES.TEMPLATE.content.querySelector(".time-message");
   if (timeMessage) {
-    timeMessage.textContent = format(new Date(data.createdAt), "k:mm");
+    timeMessage.textContent = format(
+      new Date(data.createdAt),
+      "k:mm"
+    );
   }
   const cloneMessages = MESSAGES.TEMPLATE.content.cloneNode(true);
   const methodInsert = method;

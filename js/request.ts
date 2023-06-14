@@ -7,8 +7,8 @@ import {
 } from "./const";
 import { enterChat } from "./popup";
 
-export async function mailRequest(mail:string, url:string) {
-  try{
+export async function mailRequest(mail: string, url: string) {
+  try {
     const result = await fetch(url, {
       method: REQUEST_METHOD.POST,
       headers: REQUEST_HEADERS.DEFAULT_HEADERS,
@@ -21,12 +21,12 @@ export async function mailRequest(mail:string, url:string) {
       AUTHORIZATION.AUTHORIZATION_MESSAGE.textContent =
         ANSWER_REQUEST.GET_CODE_SUCCES;
     }
-  } catch(error) {
-    console.log(error)
+  } catch (error) {
+    throw new Error(error);
   }
 }
 
-export async function changeNameRequest(name:string, url:string) {
+export async function changeNameRequest(name: string, url: string) {
   try {
     const result = await fetch(url, {
       method: REQUEST_METHOD.PATCH,
@@ -39,22 +39,11 @@ export async function changeNameRequest(name:string, url:string) {
       changeNameMessage(ANSWER_REQUEST.ERROR_CHANGE_NAME, name);
     }
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 }
 
-export async function userDataRequest(url:string) {
-  try {
-    const result = await fetch(url, {
-      method: REQUEST_METHOD.GET,
-      headers: REQUEST_HEADERS.AUTHORIZATION_HEADERS,
-    });
-  } catch(error) {
-    console.log(error)
-}
-}
-
-export async function messagesRequest(url:string) {
+export async function messagesRequest(url: string) {
   try {
     const result = await fetch(url, {
       method: REQUEST_METHOD.GET,
@@ -68,7 +57,7 @@ export async function messagesRequest(url:string) {
       AUTHORIZATION.AUTHORIZATION_MESSAGE.textContent =
         ANSWER_REQUEST.ERROR_REQUEST;
     }
-  } catch(error) {
-    console.log(error)
+  } catch (error) {
+    throw new Error(error);
   }
 }
